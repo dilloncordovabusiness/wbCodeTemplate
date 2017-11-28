@@ -1,0 +1,35 @@
+{
+  "name": "cn-orchestrator-jobdmz-polldmz-activity",
+  "version": "1.0.0",
+  "description": "read",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node route/index.js",
+    "test": "IS_MOCKED=true mocha ./test/*.spec.js --timeout=5000",
+    "testLive": "IS_MOCKED=false mocha ./test/*.spec.js --timeout 5000",
+    "coverage": "IS_MOCKED=true nyc --reporter=html --reporter=text mocha ./test/unit.spec.js --timeout=5000",
+    "testHtml": "IS_MOCKED=true mocha -R html ./test/*.spec.js --reporter mocha-simple-html-reporter --reporter-options output=index.html --timeout=5000",
+    "deployTest": "directory-to-s3 -p index.html aws-website-site-9e3jc/testResults",
+    "deployCoverage": "directory-to-s3 -d coverage aws-website-site-9e3jc/coverageResults",
+    "deployMetrics": "npm run coverage && npm run deployCoverage && npm run testHtml && npm run deployTest"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.135.0",
+    "inbound-util": "git+ssh://git@gitlab.aws.warnerbros.com:utils/inbound-util.git"
+  },
+  "devDependencies": {
+    "s3put": "^3.3.0",
+    "frappless-mocha": "^2.1.2",
+    "directory-to-s3": "^1.0.0-rc4",
+    "mocha-simple-html-reporter": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.aws.warnerbros.com:content-now/cn-orchestrator-jobDmz-pollDmz-activity.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
